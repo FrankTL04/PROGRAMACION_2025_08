@@ -1,0 +1,184 @@
+---
+title: "DISEÑOS EXPERIMENTALES"
+author: "FRANK TOMAPASCA"
+format: html
+---
+
+
+
+# IMPORTAR DATOS
+
+```{r}
+library(googlesheets4)
+library(tidyverse)
+
+
+url <- "https://docs.google.com/spreadsheets/d/15r7ZwcZZHbEgltlF6gSFvCTFA-CFzVBWwg3mFlRyKPs/edit?gid=172957346#gid=172957346"
+
+gs <- url %>% 
+  
+  as_sheets_id()
+
+fb <- gs %>%
+  range_read(sheet = "fb")
+
+view(fb)
+```
+
+
+# CONVERTIR COLUMNAS EN FACTORES
+
+```{r}
+library(tidyverse)
+
+fb <- gs %>%
+  range_read(sheet = "fb") %>%
+  mutate(
+    riego = as.factor(riego),
+    block = as.factor(block)
+  )
+
+```
+
+
+
+```{r}
+library(tidyverse)
+
+fb <- gs %>%
+  range_read(sheet = "fb") %>%
+  mutate(
+    geno = as.factor(geno),
+    riego = as.factor(riego),
+    block = as.factor(block),
+    bloque = as.factor(bloque)
+  )
+
+```
+
+
+
+```{r}
+library(tidyverse)
+
+fb <- gs %>% 
+  range_read(sheet = "fb") %>% 
+  mutate(across(1:4, as.factor))
+
+str(fb)
+
+```
+
+# ANOVA
+
+```{r}
+# Modelo ANOVA
+md <- aov(spad_83 ~ riego * geno + bloque, data = fb)
+
+# Tabla ANOVA
+anova(md)
+
+```
+
+
+# COMPARACIÓN DE MEDIAS
+
+```{r}
+library(emmeans)
+library(tidyverse)
+
+# Modelo ANOVA
+md <- aov(lfa ~ riego + geno + riego*geno + bloque, data = fb)
+
+# Ver resultados del ANOVA
+anova(md)
+
+
+# Comparación de medias para riego
+emm_riego <- emmeans(md, ~ riego)
+pairs(emm_riego, adjust = "tukey")   # Prueba de Tukey
+summary(emm_riego)
+
+# Comparación de medias para genotipo
+emm_geno <- emmeans(md, ~ geno)
+pairs(emm_geno, adjust = "tukey")
+summary(emm_geno)
+
+# Comparación para la interacción riego*geno
+emm_inter <- emmeans(md, ~ riego * geno)
+pairs(emm_inter, adjust = "tukey")
+
+
+# Medias con intervalos de confianza
+plot(emm_riego, comparisons = TRUE)
+plot(emm_geno, comparisons = TRUE)
+
+
+plot(emm_inter, comparisons = TRUE)
+
+```
+
+
+
+
+
+
+
+# COMPARACIÓN DE MEDIAS GENNO*RIEGO
+```{r}
+
+library(emmeans)
+library(multcomp)
+library(multcompView)
+library(ggplot2)
+library(dplyr)
+
+md <- aov(lfa ~ riego + geno + riego*geno + bloque, data = fb)
+
+anova(md)
+
+emm_inter <- emmeans(md, ~ geno * riego)
+
+cld_inter <- cld(emm_inter, Letters = letters, adjust = "tukey")
+
+print(cld_inter)
+
+cld_inter <- cld_inter %>%
+  mutate(.group = gsub(" ", "", .group))
+
+ggplot(cld_inter, aes(x = geno, y = emmean, fill = riego)) +
+  geom_col(position = position_dodge(width = 0.9)) +
+  geom_errorbar(aes(ymin = lower.CL, ymax = upper.CL),
+                position = position_dodge(width = 0.9), width = 0.2) +
+  geom_text(aes(label = .group),
+            position = position_dodge(width = 0.9),
+            vjust = -0.5, size = 4, color = "black") +
+  labs(
+    x = "Genotipo",
+    y = "LFA (media ajustada)",
+    fill = "Riego",
+    title = "Comparación de medias (Tukey) - Interacción Riego x Genotipo"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    plot.title = element_text(face = "bold", hjust = 0.5),
+    legend.position = "top"
+  )
+
+  
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

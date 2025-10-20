@@ -1,0 +1,1454 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="FRANK TOMAPASCA">
+
+<title>DISEÑOS EXPERIMENTALES</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="index_files/libs/clipboard/clipboard.min.js"></script>
+<script src="index_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="index_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="index_files/libs/quarto-html/popper.min.js"></script>
+<script src="index_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="index_files/libs/quarto-html/anchor.min.js"></script>
+<link href="index_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="index_files/libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="index_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="index_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="index_files/libs/bootstrap/bootstrap-bb462d781dde1847d9e3ccf7736099dd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">DISEÑOS EXPERIMENTALES</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>FRANK TOMAPASCA </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="importar-datos" class="level1">
+<h1>IMPORTAR DATOS</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(googlesheets4)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.5
+✔ forcats   1.0.1     ✔ stringr   1.5.2
+✔ ggplot2   4.0.0     ✔ tibble    3.3.0
+✔ lubridate 1.9.4     ✔ tidyr     1.3.1
+✔ purrr     1.1.0     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">"https://docs.google.com/spreadsheets/d/15r7ZwcZZHbEgltlF6gSFvCTFA-CFzVBWwg3mFlRyKPs/edit?gid=172957346#gid=172957346"</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>gs <span class="ot">&lt;-</span> url <span class="sc">%&gt;%</span> </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_sheets_id</span>()</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>fb <span class="ot">&lt;-</span> gs <span class="sc">%&gt;%</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">range_read</span>(<span class="at">sheet =</span> <span class="st">"fb"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>ℹ Suitable tokens found in the cache, associated with these emails:
+• '7102430991@untrm.edu.pe'
+• 'tomapascafrank31@gmail.com'
+  Defaulting to the first email.
+! Using an auto-discovered, cached token.
+  To suppress this message, modify your code or options to clearly consent to
+  the use of a cached token.
+  See gargle's "Non-interactive auth" vignette for more details:
+  &lt;https://gargle.r-lib.org/articles/non-interactive-auth.html&gt;
+ℹ The googlesheets4 package is using a cached token for
+  '7102430991@untrm.edu.pe'.
+✔ Reading from "LA MOLINA 2014 POTATO WUE (FB)".
+✔ Range ''fb''.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">view</span>(fb)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="convertir-columnas-en-factores" class="level1">
+<h1>CONVERTIR COLUMNAS EN FACTORES</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>fb <span class="ot">&lt;-</span> gs <span class="sc">%&gt;%</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">range_read</span>(<span class="at">sheet =</span> <span class="st">"fb"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">riego =</span> <span class="fu">as.factor</span>(riego),</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">block =</span> <span class="fu">as.factor</span>(block)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ Reading from "LA MOLINA 2014 POTATO WUE (FB)".</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ Range ''fb''.</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>fb <span class="ot">&lt;-</span> gs <span class="sc">%&gt;%</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">range_read</span>(<span class="at">sheet =</span> <span class="st">"fb"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">geno =</span> <span class="fu">as.factor</span>(geno),</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">riego =</span> <span class="fu">as.factor</span>(riego),</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">block =</span> <span class="fu">as.factor</span>(block),</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">bloque =</span> <span class="fu">as.factor</span>(bloque)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ Reading from "LA MOLINA 2014 POTATO WUE (FB)".</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ Range ''fb''.</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>fb <span class="ot">&lt;-</span> gs <span class="sc">%&gt;%</span> </span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">range_read</span>(<span class="at">sheet =</span> <span class="st">"fb"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, as.factor))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ Reading from "LA MOLINA 2014 POTATO WUE (FB)".</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✔ Range ''fb''.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(fb)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tibble [150 × 18] (S3: tbl_df/tbl/data.frame)
+ $ riego  : Factor w/ 2 levels "irrigado","sequia": 2 2 1 2 1 1 1 1 2 2 ...
+ $ geno   : Factor w/ 15 levels "G01","G02","G03",..: 1 2 1 2 3 4 1 5 6 5 ...
+ $ block  : Factor w/ 5 levels "1","2","3","4",..: 2 4 3 1 2 5 1 4 2 1 ...
+ $ bloque : Factor w/ 5 levels "I","II","III",..: 2 4 3 1 2 5 1 4 2 1 ...
+ $ spad_29: num [1:150] 56.3 52.7 49.2 55.5 58.2 43.5 57.4 56.1 61 60.3 ...
+ $ spad_83: num [1:150] 41.1 47.9 41.6 44.2 32.6 37.8 42.5 35.9 57.5 41.8 ...
+ $ rwc_84 : num [1:150] 61.5 63.2 67.7 64.9 74.5 ...
+ $ op_84  : num [1:150] -2.43 -3.03 -2.5 -2.4 -2.27 ...
+ $ leafdw : num [1:150] 13.28 9.42 18.22 8.84 14.55 ...
+ $ stemdw : num [1:150] 14.87 8.63 24.19 6.58 12.63 ...
+ $ rootdw : num [1:150] 3.83 2.1 3.16 2 1.83 2.83 2.28 3.65 4.04 4.17 ...
+ $ tubdw  : num [1:150] 19.8 17.7 38 13.5 51.1 ...
+ $ biomdw : num [1:150] 51.8 37.8 83.6 30.9 80.2 ...
+ $ hi     : num [1:150] 0.45 0.43 0.455 0.437 0.638 ...
+ $ ttrans : num [1:150] 4.5 3.54 8.39 2.9 7.37 ...
+ $ wue    : num [1:150] 11.51 10.69 9.97 10.65 10.88 ...
+ $ twue   : num [1:150] 4.4 4.99 4.53 4.65 6.94 ...
+ $ lfa    : num [1:150] 2900 2619 7579 2450 5413 ...</code></pre>
+</div>
+</div>
+</section>
+<section id="anova" class="level1">
+<h1>ANOVA</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Modelo ANOVA</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>md <span class="ot">&lt;-</span> <span class="fu">aov</span>(spad_83 <span class="sc">~</span> riego <span class="sc">*</span> geno <span class="sc">+</span> bloque, <span class="at">data =</span> fb)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Tabla ANOVA</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(md)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Variance Table
+
+Response: spad_83
+            Df  Sum Sq Mean Sq F value    Pr(&gt;F)    
+riego        1  722.05  722.05 51.2451 7.975e-11 ***
+geno        14 1951.83  139.42  9.8947 3.419e-14 ***
+bloque       4   87.52   21.88  1.5528   0.19163    
+riego:geno  14  436.61   31.19  2.2134   0.01098 *  
+Residuals  116 1634.44   14.09                      
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+</section>
+<section id="comparación-de-medias" class="level1">
+<h1>COMPARACIÓN DE MEDIAS</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(emmeans)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Welcome to emmeans.
+Caution: You lose important information if you filter this package's results.
+See '? untidy'</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Modelo ANOVA</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>md <span class="ot">&lt;-</span> <span class="fu">aov</span>(lfa <span class="sc">~</span> riego <span class="sc">+</span> geno <span class="sc">+</span> riego<span class="sc">*</span>geno <span class="sc">+</span> bloque, <span class="at">data =</span> fb)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Ver resultados del ANOVA</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(md)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Variance Table
+
+Response: lfa
+            Df    Sum Sq   Mean Sq   F value Pr(&gt;F)    
+riego        1 788556926 788556926 1433.7957 &lt;2e-16 ***
+geno        14 261729564  18694969   33.9922 &lt;2e-16 ***
+bloque       4   3435339    858835    1.5616 0.1892    
+riego:geno  14 108147972   7724855   14.0457 &lt;2e-16 ***
+Residuals  116  63797516    549979                     
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Comparación de medias para riego</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>emm_riego <span class="ot">&lt;-</span> <span class="fu">emmeans</span>(md, <span class="sc">~</span> riego)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>NOTE: Results may be misleading due to involvement in interactions</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(emm_riego, <span class="at">adjust =</span> <span class="st">"tukey"</span>)   <span class="co"># Prueba de Tukey</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> contrast          estimate  SE  df t.ratio p.value
+ irrigado - sequia     4586 121 116  37.865  &lt;.0001
+
+Results are averaged over the levels of: geno, bloque </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(emm_riego)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> riego    emmean   SE  df lower.CL upper.CL
+ irrigado   7100 85.6 116     6930     7269
+ sequia     2514 85.6 116     2344     2683
+
+Results are averaged over the levels of: geno, bloque 
+Confidence level used: 0.95 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Comparación de medias para genotipo</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>emm_geno <span class="ot">&lt;-</span> <span class="fu">emmeans</span>(md, <span class="sc">~</span> geno)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>NOTE: Results may be misleading due to involvement in interactions</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(emm_geno, <span class="at">adjust =</span> <span class="st">"tukey"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> contrast  estimate  SE  df t.ratio p.value
+ G01 - G02    960.4 332 116   2.896  0.2141
+ G01 - G03   1470.8 332 116   4.435  0.0019
+ G01 - G04  -1115.1 332 116  -3.362  0.0671
+ G01 - G05   -122.5 332 116  -0.369  1.0000
+ G01 - G06   -193.0 332 116  -0.582  1.0000
+ G01 - G07   4181.3 332 116  12.607  &lt;.0001
+ G01 - G08    378.5 332 116   1.141  0.9981
+ G01 - G09  -1471.8 332 116  -4.438  0.0019
+ G01 - G10   1110.7 332 116   3.349  0.0696
+ G01 - G11    750.1 332 116   2.262  0.6203
+ G01 - G12    276.9 332 116   0.835  0.9999
+ G01 - G13   -690.5 332 116  -2.082  0.7438
+ G01 - G14   -740.5 332 116  -2.233  0.6410
+ G01 - G15   1235.0 332 116   3.724  0.0228
+ G02 - G03    510.4 332 116   1.539  0.9675
+ G02 - G04  -2075.5 332 116  -6.258  &lt;.0001
+ G02 - G05  -1082.9 332 116  -3.265  0.0875
+ G02 - G06  -1153.4 332 116  -3.478  0.0483
+ G02 - G07   3220.9 332 116   9.711  &lt;.0001
+ G02 - G08   -581.9 332 116  -1.755  0.9107
+ G02 - G09  -2432.2 332 116  -7.334  &lt;.0001
+ G02 - G10    150.3 332 116   0.453  1.0000
+ G02 - G11   -210.3 332 116  -0.634  1.0000
+ G02 - G12   -683.5 332 116  -2.061  0.7572
+ G02 - G13  -1650.9 332 116  -4.978  0.0002
+ G02 - G14  -1700.9 332 116  -5.129  0.0001
+ G02 - G15    274.5 332 116   0.828  1.0000
+ G03 - G04  -2585.9 332 116  -7.797  &lt;.0001
+ G03 - G05  -1593.3 332 116  -4.804  0.0004
+ G03 - G06  -1663.8 332 116  -5.017  0.0002
+ G03 - G07   2710.5 332 116   8.173  &lt;.0001
+ G03 - G08  -1092.3 332 116  -3.294  0.0811
+ G03 - G09  -2942.6 332 116  -8.872  &lt;.0001
+ G03 - G10   -360.1 332 116  -1.086  0.9989
+ G03 - G11   -720.7 332 116  -2.173  0.6829
+ G03 - G12  -1193.9 332 116  -3.600  0.0335
+ G03 - G13  -2161.3 332 116  -6.517  &lt;.0001
+ G03 - G14  -2211.3 332 116  -6.668  &lt;.0001
+ G03 - G15   -235.9 332 116  -0.711  1.0000
+ G04 - G05    992.6 332 116   2.993  0.1723
+ G04 - G06    922.1 332 116   2.780  0.2725
+ G04 - G07   5296.4 332 116  15.969  &lt;.0001
+ G04 - G08   1493.6 332 116   4.503  0.0015
+ G04 - G09   -356.7 332 116  -1.075  0.9990
+ G04 - G10   2225.8 332 116   6.711  &lt;.0001
+ G04 - G11   1865.2 332 116   5.624  &lt;.0001
+ G04 - G12   1392.0 332 116   4.197  0.0046
+ G04 - G13    424.6 332 116   1.280  0.9939
+ G04 - G14    374.6 332 116   1.129  0.9983
+ G04 - G15   2350.1 332 116   7.086  &lt;.0001
+ G05 - G06    -70.5 332 116  -0.213  1.0000
+ G05 - G07   4303.8 332 116  12.977  &lt;.0001
+ G05 - G08    501.0 332 116   1.511  0.9722
+ G05 - G09  -1349.3 332 116  -4.068  0.0072
+ G05 - G10   1233.2 332 116   3.718  0.0232
+ G05 - G11    872.6 332 116   2.631  0.3610
+ G05 - G12    399.4 332 116   1.204  0.9967
+ G05 - G13   -568.0 332 116  -1.713  0.9250
+ G05 - G14   -618.0 332 116  -1.863  0.8659
+ G05 - G15   1357.5 332 116   4.093  0.0066
+ G06 - G07   4374.3 332 116  13.189  &lt;.0001
+ G06 - G08    571.5 332 116   1.723  0.9216
+ G06 - G09  -1278.8 332 116  -3.856  0.0149
+ G06 - G10   1303.7 332 116   3.931  0.0116
+ G06 - G11    943.1 332 116   2.844  0.2394
+ G06 - G12    469.9 332 116   1.417  0.9842
+ G06 - G13   -497.5 332 116  -1.500  0.9738
+ G06 - G14   -547.5 332 116  -1.651  0.9430
+ G06 - G15   1428.0 332 116   4.306  0.0031
+ G07 - G08  -3802.8 332 116 -11.466  &lt;.0001
+ G07 - G09  -5653.1 332 116 -17.045  &lt;.0001
+ G07 - G10  -3070.6 332 116  -9.258  &lt;.0001
+ G07 - G11  -3431.2 332 116 -10.346  &lt;.0001
+ G07 - G12  -3904.4 332 116 -11.772  &lt;.0001
+ G07 - G13  -4871.8 332 116 -14.689  &lt;.0001
+ G07 - G14  -4921.8 332 116 -14.840  &lt;.0001
+ G07 - G15  -2946.3 332 116  -8.884  &lt;.0001
+ G08 - G09  -1850.3 332 116  -5.579  &lt;.0001
+ G08 - G10    732.2 332 116   2.208  0.6587
+ G08 - G11    371.6 332 116   1.120  0.9985
+ G08 - G12   -101.6 332 116  -0.306  1.0000
+ G08 - G13  -1069.0 332 116  -3.223  0.0977
+ G08 - G14  -1119.0 332 116  -3.374  0.0650
+ G08 - G15    856.5 332 116   2.582  0.3927
+ G09 - G10   2582.5 332 116   7.787  &lt;.0001
+ G09 - G11   2221.9 332 116   6.699  &lt;.0001
+ G09 - G12   1748.7 332 116   5.273  0.0001
+ G09 - G13    781.3 332 116   2.356  0.5522
+ G09 - G14    731.3 332 116   2.205  0.6607
+ G09 - G15   2706.8 332 116   8.161  &lt;.0001
+ G10 - G11   -360.6 332 116  -1.087  0.9989
+ G10 - G12   -833.8 332 116  -2.514  0.4390
+ G10 - G13  -1801.2 332 116  -5.431  &lt;.0001
+ G10 - G14  -1851.2 332 116  -5.582  &lt;.0001
+ G10 - G15    124.2 332 116   0.375  1.0000
+ G11 - G12   -473.2 332 116  -1.427  0.9832
+ G11 - G13  -1440.6 332 116  -4.344  0.0027
+ G11 - G14  -1490.6 332 116  -4.494  0.0015
+ G11 - G15    484.9 332 116   1.462  0.9791
+ G12 - G13   -967.4 332 116  -2.917  0.2045
+ G12 - G14  -1017.4 332 116  -3.068  0.1444
+ G12 - G15    958.1 332 116   2.889  0.2175
+ G13 - G14    -50.0 332 116  -0.151  1.0000
+ G13 - G15   1925.5 332 116   5.806  &lt;.0001
+ G14 - G15   1975.5 332 116   5.956  &lt;.0001
+
+Results are averaged over the levels of: riego, bloque 
+P value adjustment: tukey method for comparing a family of 15 estimates </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(emm_geno)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> geno emmean  SE  df lower.CL upper.CL
+ G01    5209 235 116     4744     5673
+ G02    4248 235 116     3784     4713
+ G03    3738 235 116     3273     4202
+ G04    6324 235 116     5859     6788
+ G05    5331 235 116     4867     5796
+ G06    5402 235 116     4937     5866
+ G07    1027 235 116      563     1492
+ G08    4830 235 116     4366     5295
+ G09    6681 235 116     6216     7145
+ G10    4098 235 116     3634     4562
+ G11    4459 235 116     3994     4923
+ G12    4932 235 116     4467     5396
+ G13    5899 235 116     5435     6364
+ G14    5949 235 116     5485     6414
+ G15    3974 235 116     3509     4438
+
+Results are averaged over the levels of: riego, bloque 
+Confidence level used: 0.95 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Comparación para la interacción riego*geno</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>emm_inter <span class="ot">&lt;-</span> <span class="fu">emmeans</span>(md, <span class="sc">~</span> riego <span class="sc">*</span> geno)</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(emm_inter, <span class="at">adjust =</span> <span class="st">"tukey"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> contrast                    estimate  SE  df t.ratio p.value
+ irrigado G01 - sequia G01    4338.30 469 116   9.249  &lt;.0001
+ irrigado G01 - irrigado G02  1598.33 469 116   3.408  0.1679
+ irrigado G01 - sequia G02    4660.84 469 116   9.937  &lt;.0001
+ irrigado G01 - irrigado G03  1961.12 469 116   4.181  0.0168
+ irrigado G01 - sequia G03    5318.84 469 116  11.340  &lt;.0001
+ irrigado G01 - irrigado G04 -2291.04 469 116  -4.885  0.0012
+ irrigado G01 - sequia G04    4399.18 469 116   9.379  &lt;.0001
+ irrigado G01 - irrigado G05 -1500.86 469 116  -3.200  0.2707
+ irrigado G01 - sequia G05    5594.21 469 116  11.927  &lt;.0001
+ irrigado G01 - irrigado G06   -77.47 469 116  -0.165  1.0000
+ irrigado G01 - sequia G06    4029.82 469 116   8.592  &lt;.0001
+ irrigado G01 - irrigado G07  6003.74 469 116  12.800  &lt;.0001
+ irrigado G01 - sequia G07    6697.16 469 116  14.279  &lt;.0001
+ irrigado G01 - irrigado G08    91.07 469 116   0.194  1.0000
+ irrigado G01 - sequia G08    5004.27 469 116  10.669  &lt;.0001
+ irrigado G01 - irrigado G09 -2909.82 469 116  -6.204  &lt;.0001
+ irrigado G01 - sequia G09    4304.57 469 116   9.178  &lt;.0001
+ irrigado G01 - irrigado G10  2106.55 469 116   4.491  0.0056
+ irrigado G01 - sequia G10    4453.24 469 116   9.495  &lt;.0001
+ irrigado G01 - irrigado G11   523.01 469 116   1.115  1.0000
+ irrigado G01 - sequia G11    5315.48 469 116  11.333  &lt;.0001
+ irrigado G01 - irrigado G12   -39.37 469 116  -0.084  1.0000
+ irrigado G01 - sequia G12    4931.49 469 116  10.514  &lt;.0001
+ irrigado G01 - irrigado G13 -1294.49 469 116  -2.760  0.5819
+ irrigado G01 - sequia G13    4251.79 469 116   9.065  &lt;.0001
+ irrigado G01 - irrigado G14 -1006.24 469 116  -2.145  0.9412
+ irrigado G01 - sequia G14    3863.55 469 116   8.237  &lt;.0001
+ irrigado G01 - irrigado G15  1010.87 469 116   2.155  0.9384
+ irrigado G01 - sequia G15    5797.39 469 116  12.360  &lt;.0001
+ sequia G01 - irrigado G02   -2739.97 469 116  -5.842  &lt;.0001
+ sequia G01 - sequia G02       322.54 469 116   0.688  1.0000
+ sequia G01 - irrigado G03   -2377.18 469 116  -5.068  0.0006
+ sequia G01 - sequia G03       980.54 469 116   2.091  0.9556
+ sequia G01 - irrigado G04   -6629.34 469 116 -14.134  &lt;.0001
+ sequia G01 - sequia G04        60.88 469 116   0.130  1.0000
+ sequia G01 - irrigado G05   -5839.17 469 116 -12.449  &lt;.0001
+ sequia G01 - sequia G05      1255.91 469 116   2.678  0.6452
+ sequia G01 - irrigado G06   -4415.78 469 116  -9.415  &lt;.0001
+ sequia G01 - sequia G06      -308.49 469 116  -0.658  1.0000
+ sequia G01 - irrigado G07    1665.43 469 116   3.551  0.1163
+ sequia G01 - sequia G07      2358.85 469 116   5.029  0.0007
+ sequia G01 - irrigado G08   -4247.24 469 116  -9.055  &lt;.0001
+ sequia G01 - sequia G08       665.96 469 116   1.420  0.9999
+ sequia G01 - irrigado G09   -7248.12 469 116 -15.453  &lt;.0001
+ sequia G01 - sequia G09       -33.73 469 116  -0.072  1.0000
+ sequia G01 - irrigado G10   -2231.76 469 116  -4.758  0.0020
+ sequia G01 - sequia G10       114.94 469 116   0.245  1.0000
+ sequia G01 - irrigado G11   -3815.29 469 116  -8.134  &lt;.0001
+ sequia G01 - sequia G11       977.18 469 116   2.083  0.9573
+ sequia G01 - irrigado G12   -4377.67 469 116  -9.333  &lt;.0001
+ sequia G01 - sequia G12       593.18 469 116   1.265  1.0000
+ sequia G01 - irrigado G13   -5632.79 469 116 -12.009  &lt;.0001
+ sequia G01 - sequia G13       -86.51 469 116  -0.184  1.0000
+ sequia G01 - irrigado G14   -5344.54 469 116 -11.395  &lt;.0001
+ sequia G01 - sequia G14      -474.75 469 116  -1.012  1.0000
+ sequia G01 - irrigado G15   -3327.44 469 116  -7.094  &lt;.0001
+ sequia G01 - sequia G15      1459.08 469 116   3.111  0.3250
+ irrigado G02 - sequia G02    3062.51 469 116   6.529  &lt;.0001
+ irrigado G02 - irrigado G03   362.79 469 116   0.773  1.0000
+ irrigado G02 - sequia G03    3720.51 469 116   7.932  &lt;.0001
+ irrigado G02 - irrigado G04 -3889.37 469 116  -8.292  &lt;.0001
+ irrigado G02 - sequia G04    2800.85 469 116   5.972  &lt;.0001
+ irrigado G02 - irrigado G05 -3099.19 469 116  -6.608  &lt;.0001
+ irrigado G02 - sequia G05    3995.88 469 116   8.519  &lt;.0001
+ irrigado G02 - irrigado G06 -1675.80 469 116  -3.573  0.1096
+ irrigado G02 - sequia G06    2431.49 469 116   5.184  0.0004
+ irrigado G02 - irrigado G07  4405.41 469 116   9.393  &lt;.0001
+ irrigado G02 - sequia G07    5098.83 469 116  10.871  &lt;.0001
+ irrigado G02 - irrigado G08 -1507.26 469 116  -3.214  0.2629
+ irrigado G02 - sequia G08    3405.94 469 116   7.262  &lt;.0001
+ irrigado G02 - irrigado G09 -4508.15 469 116  -9.612  &lt;.0001
+ irrigado G02 - sequia G09    2706.24 469 116   5.770  &lt;.0001
+ irrigado G02 - irrigado G10   508.22 469 116   1.084  1.0000
+ irrigado G02 - sequia G10    2854.91 469 116   6.087  &lt;.0001
+ irrigado G02 - irrigado G11 -1075.32 469 116  -2.293  0.8873
+ irrigado G02 - sequia G11    3717.15 469 116   7.925  &lt;.0001
+ irrigado G02 - irrigado G12 -1637.70 469 116  -3.492  0.1359
+ irrigado G02 - sequia G12    3333.16 469 116   7.106  &lt;.0001
+ irrigado G02 - irrigado G13 -2892.82 469 116  -6.168  &lt;.0001
+ irrigado G02 - sequia G13    2653.46 469 116   5.657  &lt;.0001
+ irrigado G02 - irrigado G14 -2604.57 469 116  -5.553  0.0001
+ irrigado G02 - sequia G14    2265.22 469 116   4.830  0.0015
+ irrigado G02 - irrigado G15  -587.46 469 116  -1.253  1.0000
+ irrigado G02 - sequia G15    4199.06 469 116   8.953  &lt;.0001
+ sequia G02 - irrigado G03   -2699.72 469 116  -5.756  &lt;.0001
+ sequia G02 - sequia G03       658.00 469 116   1.403  0.9999
+ sequia G02 - irrigado G04   -6951.88 469 116 -14.822  &lt;.0001
+ sequia G02 - sequia G04      -261.66 469 116  -0.558  1.0000
+ sequia G02 - irrigado G05   -6161.71 469 116 -13.137  &lt;.0001
+ sequia G02 - sequia G05       933.37 469 116   1.990  0.9750
+ sequia G02 - irrigado G06   -4738.31 469 116 -10.102  &lt;.0001
+ sequia G02 - sequia G06      -631.02 469 116  -1.345  1.0000
+ sequia G02 - irrigado G07    1342.89 469 116   2.863  0.5021
+ sequia G02 - sequia G07      2036.32 469 116   4.342  0.0096
+ sequia G02 - irrigado G08   -4569.78 469 116  -9.743  &lt;.0001
+ sequia G02 - sequia G08       343.43 469 116   0.732  1.0000
+ sequia G02 - irrigado G09   -7570.66 469 116 -16.141  &lt;.0001
+ sequia G02 - sequia G09      -356.27 469 116  -0.760  1.0000
+ sequia G02 - irrigado G10   -2554.29 469 116  -5.446  0.0001
+ sequia G02 - sequia G10      -207.60 469 116  -0.443  1.0000
+ sequia G02 - irrigado G11   -4137.83 469 116  -8.822  &lt;.0001
+ sequia G02 - sequia G11       654.64 469 116   1.396  0.9999
+ sequia G02 - irrigado G12   -4700.21 469 116 -10.021  &lt;.0001
+ sequia G02 - sequia G12       270.65 469 116   0.577  1.0000
+ sequia G02 - irrigado G13   -5955.33 469 116 -12.697  &lt;.0001
+ sequia G02 - sequia G13      -409.05 469 116  -0.872  1.0000
+ sequia G02 - irrigado G14   -5667.08 469 116 -12.082  &lt;.0001
+ sequia G02 - sequia G14      -797.29 469 116  -1.700  0.9972
+ sequia G02 - irrigado G15   -3649.98 469 116  -7.782  &lt;.0001
+ sequia G02 - sequia G15      1136.54 469 116   2.423  0.8198
+ irrigado G03 - sequia G03    3357.72 469 116   7.159  &lt;.0001
+ irrigado G03 - irrigado G04 -4252.16 469 116  -9.066  &lt;.0001
+ irrigado G03 - sequia G04    2438.06 469 116   5.198  0.0003
+ irrigado G03 - irrigado G05 -3461.99 469 116  -7.381  &lt;.0001
+ irrigado G03 - sequia G05    3633.09 469 116   7.746  &lt;.0001
+ irrigado G03 - irrigado G06 -2038.59 469 116  -4.346  0.0094
+ irrigado G03 - sequia G06    2068.70 469 116   4.411  0.0075
+ irrigado G03 - irrigado G07  4042.61 469 116   8.619  &lt;.0001
+ irrigado G03 - sequia G07    4736.04 469 116  10.097  &lt;.0001
+ irrigado G03 - irrigado G08 -1870.06 469 116  -3.987  0.0321
+ irrigado G03 - sequia G08    3043.15 469 116   6.488  &lt;.0001
+ irrigado G03 - irrigado G09 -4870.94 469 116 -10.385  &lt;.0001
+ irrigado G03 - sequia G09    2343.45 469 116   4.996  0.0008
+ irrigado G03 - irrigado G10   145.43 469 116   0.310  1.0000
+ irrigado G03 - sequia G10    2492.12 469 116   5.313  0.0002
+ irrigado G03 - irrigado G11 -1438.11 469 116  -3.066  0.3544
+ irrigado G03 - sequia G11    3354.36 469 116   7.152  &lt;.0001
+ irrigado G03 - irrigado G12 -2000.49 469 116  -4.265  0.0126
+ irrigado G03 - sequia G12    2970.37 469 116   6.333  &lt;.0001
+ irrigado G03 - irrigado G13 -3255.61 469 116  -6.941  &lt;.0001
+ irrigado G03 - sequia G13    2290.67 469 116   4.884  0.0012
+ irrigado G03 - irrigado G14 -2967.36 469 116  -6.327  &lt;.0001
+ irrigado G03 - sequia G14    1902.43 469 116   4.056  0.0256
+ irrigado G03 - irrigado G15  -950.26 469 116  -2.026  0.9690
+ irrigado G03 - sequia G15    3836.26 469 116   8.179  &lt;.0001
+ sequia G03 - irrigado G04   -7609.88 469 116 -16.225  &lt;.0001
+ sequia G03 - sequia G04      -919.66 469 116  -1.961  0.9792
+ sequia G03 - irrigado G05   -6819.70 469 116 -14.540  &lt;.0001
+ sequia G03 - sequia G05       275.37 469 116   0.587  1.0000
+ sequia G03 - irrigado G06   -5396.31 469 116 -11.505  &lt;.0001
+ sequia G03 - sequia G06     -1289.02 469 116  -2.748  0.5910
+ sequia G03 - irrigado G07     684.90 469 116   1.460  0.9998
+ sequia G03 - sequia G07      1378.32 469 116   2.939  0.4450
+ sequia G03 - irrigado G08   -5227.77 469 116 -11.146  &lt;.0001
+ sequia G03 - sequia G08      -314.57 469 116  -0.671  1.0000
+ sequia G03 - irrigado G09   -8228.66 469 116 -17.544  &lt;.0001
+ sequia G03 - sequia G09     -1014.27 469 116  -2.162  0.9362
+ sequia G03 - irrigado G10   -3212.29 469 116  -6.849  &lt;.0001
+ sequia G03 - sequia G10      -865.60 469 116  -1.845  0.9906
+ sequia G03 - irrigado G11   -4795.83 469 116 -10.225  &lt;.0001
+ sequia G03 - sequia G11        -3.36 469 116  -0.007  1.0000
+ sequia G03 - irrigado G12   -5358.21 469 116 -11.424  &lt;.0001
+ sequia G03 - sequia G12      -387.35 469 116  -0.826  1.0000
+ sequia G03 - irrigado G13   -6613.33 469 116 -14.100  &lt;.0001
+ sequia G03 - sequia G13     -1067.05 469 116  -2.275  0.8950
+ sequia G03 - irrigado G14   -6325.08 469 116 -13.485  &lt;.0001
+ sequia G03 - sequia G14     -1455.29 469 116  -3.103  0.3302
+ sequia G03 - irrigado G15   -4307.97 469 116  -9.185  &lt;.0001
+ sequia G03 - sequia G15       478.55 469 116   1.020  1.0000
+ irrigado G04 - sequia G04    6690.22 469 116  14.264  &lt;.0001
+ irrigado G04 - irrigado G05   790.18 469 116   1.685  0.9975
+ irrigado G04 - sequia G05    7885.25 469 116  16.812  &lt;.0001
+ irrigado G04 - irrigado G06  2213.57 469 116   4.719  0.0023
+ irrigado G04 - sequia G06    6320.86 469 116  13.476  &lt;.0001
+ irrigado G04 - irrigado G07  8294.78 469 116  17.685  &lt;.0001
+ irrigado G04 - sequia G07    8988.20 469 116  19.163  &lt;.0001
+ irrigado G04 - irrigado G08  2382.11 469 116   5.079  0.0006
+ irrigado G04 - sequia G08    7295.31 469 116  15.554  &lt;.0001
+ irrigado G04 - irrigado G09  -618.78 469 116  -1.319  1.0000
+ irrigado G04 - sequia G09    6595.61 469 116  14.062  &lt;.0001
+ irrigado G04 - irrigado G10  4397.59 469 116   9.376  &lt;.0001
+ irrigado G04 - sequia G10    6744.28 469 116  14.379  &lt;.0001
+ irrigado G04 - irrigado G11  2814.05 469 116   6.000  &lt;.0001
+ irrigado G04 - sequia G11    7606.52 469 116  16.217  &lt;.0001
+ irrigado G04 - irrigado G12  2251.67 469 116   4.801  0.0017
+ irrigado G04 - sequia G12    7222.53 469 116  15.399  &lt;.0001
+ irrigado G04 - irrigado G13   996.55 469 116   2.125  0.9470
+ irrigado G04 - sequia G13    6542.83 469 116  13.950  &lt;.0001
+ irrigado G04 - irrigado G14  1284.80 469 116   2.739  0.5980
+ irrigado G04 - sequia G14    6154.59 469 116  13.122  &lt;.0001
+ irrigado G04 - irrigado G15  3301.91 469 116   7.040  &lt;.0001
+ irrigado G04 - sequia G15    8088.43 469 116  17.245  &lt;.0001
+ sequia G04 - irrigado G05   -5900.04 469 116 -12.579  &lt;.0001
+ sequia G04 - sequia G05      1195.03 469 116   2.548  0.7399
+ sequia G04 - irrigado G06   -4476.65 469 116  -9.544  &lt;.0001
+ sequia G04 - sequia G06      -369.36 469 116  -0.787  1.0000
+ sequia G04 - irrigado G07    1604.56 469 116   3.421  0.1625
+ sequia G04 - sequia G07      2297.98 469 116   4.899  0.0011
+ sequia G04 - irrigado G08   -4308.11 469 116  -9.185  &lt;.0001
+ sequia G04 - sequia G08       605.09 469 116   1.290  1.0000
+ sequia G04 - irrigado G09   -7309.00 469 116 -15.583  &lt;.0001
+ sequia G04 - sequia G09       -94.61 469 116  -0.202  1.0000
+ sequia G04 - irrigado G10   -2292.63 469 116  -4.888  0.0012
+ sequia G04 - sequia G10        54.06 469 116   0.115  1.0000
+ sequia G04 - irrigado G11   -3876.17 469 116  -8.264  &lt;.0001
+ sequia G04 - sequia G11       916.30 469 116   1.954  0.9801
+ sequia G04 - irrigado G12   -4438.55 469 116  -9.463  &lt;.0001
+ sequia G04 - sequia G12       532.31 469 116   1.135  1.0000
+ sequia G04 - irrigado G13   -5693.67 469 116 -12.139  &lt;.0001
+ sequia G04 - sequia G13      -147.39 469 116  -0.314  1.0000
+ sequia G04 - irrigado G14   -5405.42 469 116 -11.525  &lt;.0001
+ sequia G04 - sequia G14      -535.63 469 116  -1.142  1.0000
+ sequia G04 - irrigado G15   -3388.31 469 116  -7.224  &lt;.0001
+ sequia G04 - sequia G15      1398.21 469 116   2.981  0.4139
+ irrigado G05 - sequia G05    7095.08 469 116  15.127  &lt;.0001
+ irrigado G05 - irrigado G06  1423.39 469 116   3.035  0.3759
+ irrigado G05 - sequia G06    5530.68 469 116  11.792  &lt;.0001
+ irrigado G05 - irrigado G07  7504.60 469 116  16.000  &lt;.0001
+ irrigado G05 - sequia G07    8198.02 469 116  17.479  &lt;.0001
+ irrigado G05 - irrigado G08  1591.93 469 116   3.394  0.1736
+ irrigado G05 - sequia G08    6505.13 469 116  13.869  &lt;.0001
+ irrigado G05 - irrigado G09 -1408.96 469 116  -3.004  0.3975
+ irrigado G05 - sequia G09    5805.43 469 116  12.377  &lt;.0001
+ irrigado G05 - irrigado G10  3607.41 469 116   7.691  &lt;.0001
+ irrigado G05 - sequia G10    5954.11 469 116  12.694  &lt;.0001
+ irrigado G05 - irrigado G11  2023.88 469 116   4.315  0.0106
+ irrigado G05 - sequia G11    6816.34 469 116  14.533  &lt;.0001
+ irrigado G05 - irrigado G12  1461.50 469 116   3.116  0.3217
+ irrigado G05 - sequia G12    6432.35 469 116  13.714  &lt;.0001
+ irrigado G05 - irrigado G13   206.38 469 116   0.440  1.0000
+ irrigado G05 - sequia G13    5752.66 469 116  12.265  &lt;.0001
+ irrigado G05 - irrigado G14   494.62 469 116   1.055  1.0000
+ irrigado G05 - sequia G14    5364.42 469 116  11.437  &lt;.0001
+ irrigado G05 - irrigado G15  2511.73 469 116   5.355  0.0002
+ irrigado G05 - sequia G15    7298.25 469 116  15.560  &lt;.0001
+ sequia G05 - irrigado G06   -5671.69 469 116 -12.092  &lt;.0001
+ sequia G05 - sequia G06     -1564.40 469 116  -3.335  0.1998
+ sequia G05 - irrigado G07     409.52 469 116   0.873  1.0000
+ sequia G05 - sequia G07      1102.94 469 116   2.352  0.8591
+ sequia G05 - irrigado G08   -5503.15 469 116 -11.733  &lt;.0001
+ sequia G05 - sequia G08      -589.95 469 116  -1.258  1.0000
+ sequia G05 - irrigado G09   -8504.03 469 116 -18.131  &lt;.0001
+ sequia G05 - sequia G09     -1289.64 469 116  -2.750  0.5900
+ sequia G05 - irrigado G10   -3487.67 469 116  -7.436  &lt;.0001
+ sequia G05 - sequia G10     -1140.97 469 116  -2.433  0.8143
+ sequia G05 - irrigado G11   -5071.20 469 116 -10.812  &lt;.0001
+ sequia G05 - sequia G11      -278.73 469 116  -0.594  1.0000
+ sequia G05 - irrigado G12   -5633.58 469 116 -12.011  &lt;.0001
+ sequia G05 - sequia G12      -662.73 469 116  -1.413  0.9999
+ sequia G05 - irrigado G13   -6888.70 469 116 -14.687  &lt;.0001
+ sequia G05 - sequia G13     -1342.42 469 116  -2.862  0.5028
+ sequia G05 - irrigado G14   -6600.45 469 116 -14.072  &lt;.0001
+ sequia G05 - sequia G14     -1730.66 469 116  -3.690  0.0792
+ sequia G05 - irrigado G15   -4583.35 469 116  -9.772  &lt;.0001
+ sequia G05 - sequia G15       203.17 469 116   0.433  1.0000
+ irrigado G06 - sequia G06    4107.29 469 116   8.757  &lt;.0001
+ irrigado G06 - irrigado G07  6081.21 469 116  12.965  &lt;.0001
+ irrigado G06 - sequia G07    6774.63 469 116  14.444  &lt;.0001
+ irrigado G06 - irrigado G08   168.54 469 116   0.359  1.0000
+ irrigado G06 - sequia G08    5081.74 469 116  10.835  &lt;.0001
+ irrigado G06 - irrigado G09 -2832.35 469 116  -6.039  &lt;.0001
+ irrigado G06 - sequia G09    4382.04 469 116   9.343  &lt;.0001
+ irrigado G06 - irrigado G10  2184.02 469 116   4.656  0.0030
+ irrigado G06 - sequia G10    4530.72 469 116   9.660  &lt;.0001
+ irrigado G06 - irrigado G11   600.48 469 116   1.280  1.0000
+ irrigado G06 - sequia G11    5392.95 469 116  11.498  &lt;.0001
+ irrigado G06 - irrigado G12    38.11 469 116   0.081  1.0000
+ irrigado G06 - sequia G12    5008.96 469 116  10.679  &lt;.0001
+ irrigado G06 - irrigado G13 -1217.02 469 116  -2.595  0.7068
+ irrigado G06 - sequia G13    4329.26 469 116   9.230  &lt;.0001
+ irrigado G06 - irrigado G14  -928.77 469 116  -1.980  0.9765
+ irrigado G06 - sequia G14    3941.03 469 116   8.402  &lt;.0001
+ irrigado G06 - irrigado G15  1088.34 469 116   2.320  0.8745
+ irrigado G06 - sequia G15    5874.86 469 116  12.525  &lt;.0001
+ sequia G06 - irrigado G07    1973.92 469 116   4.208  0.0153
+ sequia G06 - sequia G07      2667.34 469 116   5.687  &lt;.0001
+ sequia G06 - irrigado G08   -3938.75 469 116  -8.398  &lt;.0001
+ sequia G06 - sequia G08       974.45 469 116   2.078  0.9586
+ sequia G06 - irrigado G09   -6939.64 469 116 -14.796  &lt;.0001
+ sequia G06 - sequia G09       274.75 469 116   0.586  1.0000
+ sequia G06 - irrigado G10   -1923.27 469 116  -4.101  0.0221
+ sequia G06 - sequia G10       423.43 469 116   0.903  1.0000
+ sequia G06 - irrigado G11   -3506.81 469 116  -7.477  &lt;.0001
+ sequia G06 - sequia G11      1285.66 469 116   2.741  0.5965
+ sequia G06 - irrigado G12   -4069.18 469 116  -8.676  &lt;.0001
+ sequia G06 - sequia G12       901.67 469 116   1.922  0.9838
+ sequia G06 - irrigado G13   -5324.31 469 116 -11.352  &lt;.0001
+ sequia G06 - sequia G13       221.97 469 116   0.473  1.0000
+ sequia G06 - irrigado G14   -5036.06 469 116 -10.737  &lt;.0001
+ sequia G06 - sequia G14      -166.26 469 116  -0.354  1.0000
+ sequia G06 - irrigado G15   -3018.95 469 116  -6.437  &lt;.0001
+ sequia G06 - sequia G15      1767.57 469 116   3.769  0.0630
+ irrigado G07 - sequia G07     693.42 469 116   1.478  0.9997
+ irrigado G07 - irrigado G08 -5912.67 469 116 -12.606  &lt;.0001
+ irrigado G07 - sequia G08    -999.47 469 116  -2.131  0.9453
+ irrigado G07 - irrigado G09 -8913.56 469 116 -19.004  &lt;.0001
+ irrigado G07 - sequia G09   -1699.17 469 116  -3.623  0.0956
+ irrigado G07 - irrigado G10 -3897.19 469 116  -8.309  &lt;.0001
+ irrigado G07 - sequia G10   -1550.49 469 116  -3.306  0.2141
+ irrigado G07 - irrigado G11 -5480.72 469 116 -11.685  &lt;.0001
+ irrigado G07 - sequia G11    -688.26 469 116  -1.467  0.9998
+ irrigado G07 - irrigado G12 -6043.10 469 116 -12.884  &lt;.0001
+ irrigado G07 - sequia G12   -1072.25 469 116  -2.286  0.8902
+ irrigado G07 - irrigado G13 -7298.22 469 116 -15.560  &lt;.0001
+ irrigado G07 - sequia G13   -1751.94 469 116  -3.735  0.0695
+ irrigado G07 - irrigado G14 -7009.98 469 116 -14.946  &lt;.0001
+ irrigado G07 - sequia G14   -2140.18 469 116  -4.563  0.0043
+ irrigado G07 - irrigado G15 -4992.87 469 116 -10.645  &lt;.0001
+ irrigado G07 - sequia G15    -206.35 469 116  -0.440  1.0000
+ sequia G07 - irrigado G08   -6606.09 469 116 -14.085  &lt;.0001
+ sequia G07 - sequia G08     -1692.89 469 116  -3.609  0.0992
+ sequia G07 - irrigado G09   -9606.98 469 116 -20.483  &lt;.0001
+ sequia G07 - sequia G09     -2392.59 469 116  -5.101  0.0005
+ sequia G07 - irrigado G10   -4590.61 469 116  -9.787  &lt;.0001
+ sequia G07 - sequia G10     -2243.91 469 116  -4.784  0.0018
+ sequia G07 - irrigado G11   -6174.15 469 116 -13.164  &lt;.0001
+ sequia G07 - sequia G11     -1381.68 469 116  -2.946  0.4396
+ sequia G07 - irrigado G12   -6736.52 469 116 -14.363  &lt;.0001
+ sequia G07 - sequia G12     -1765.67 469 116  -3.764  0.0637
+ sequia G07 - irrigado G13   -7991.65 469 116 -17.039  &lt;.0001
+ sequia G07 - sequia G13     -2445.37 469 116  -5.214  0.0003
+ sequia G07 - irrigado G14   -7703.40 469 116 -16.424  &lt;.0001
+ sequia G07 - sequia G14     -2833.60 469 116  -6.041  &lt;.0001
+ sequia G07 - irrigado G15   -5686.29 469 116 -12.123  &lt;.0001
+ sequia G07 - sequia G15      -899.77 469 116  -1.918  0.9842
+ irrigado G08 - sequia G08    4913.20 469 116  10.475  &lt;.0001
+ irrigado G08 - irrigado G09 -3000.89 469 116  -6.398  &lt;.0001
+ irrigado G08 - sequia G09    4213.50 469 116   8.983  &lt;.0001
+ irrigado G08 - irrigado G10  2015.48 469 116   4.297  0.0113
+ irrigado G08 - sequia G10    4362.18 469 116   9.300  &lt;.0001
+ irrigado G08 - irrigado G11   431.95 469 116   0.921  1.0000
+ irrigado G08 - sequia G11    5224.41 469 116  11.139  &lt;.0001
+ irrigado G08 - irrigado G12  -130.43 469 116  -0.278  1.0000
+ irrigado G08 - sequia G12    4840.42 469 116  10.320  &lt;.0001
+ irrigado G08 - irrigado G13 -1385.55 469 116  -2.954  0.4336
+ irrigado G08 - sequia G13    4160.73 469 116   8.871  &lt;.0001
+ irrigado G08 - irrigado G14 -1097.31 469 116  -2.340  0.8651
+ irrigado G08 - sequia G14    3772.49 469 116   8.043  &lt;.0001
+ irrigado G08 - irrigado G15   919.80 469 116   1.961  0.9791
+ irrigado G08 - sequia G15    5706.32 469 116  12.166  &lt;.0001
+ sequia G08 - irrigado G09   -7914.09 469 116 -16.873  &lt;.0001
+ sequia G08 - sequia G09      -699.70 469 116  -1.492  0.9997
+ sequia G08 - irrigado G10   -2897.72 469 116  -6.178  &lt;.0001
+ sequia G08 - sequia G10      -551.02 469 116  -1.175  1.0000
+ sequia G08 - irrigado G11   -4481.26 469 116  -9.554  &lt;.0001
+ sequia G08 - sequia G11       311.21 469 116   0.664  1.0000
+ sequia G08 - irrigado G12   -5043.63 469 116 -10.753  &lt;.0001
+ sequia G08 - sequia G12       -72.78 469 116  -0.155  1.0000
+ sequia G08 - irrigado G13   -6298.76 469 116 -13.429  &lt;.0001
+ sequia G08 - sequia G13      -752.48 469 116  -1.604  0.9989
+ sequia G08 - irrigado G14   -6010.51 469 116 -12.815  &lt;.0001
+ sequia G08 - sequia G14     -1140.71 469 116  -2.432  0.8146
+ sequia G08 - irrigado G15   -3993.40 469 116  -8.514  &lt;.0001
+ sequia G08 - sequia G15       793.12 469 116   1.691  0.9974
+ irrigado G09 - sequia G09    7214.39 469 116  15.381  &lt;.0001
+ irrigado G09 - irrigado G10  5016.37 469 116  10.695  &lt;.0001
+ irrigado G09 - sequia G10    7363.06 469 116  15.698  &lt;.0001
+ irrigado G09 - irrigado G11  3432.83 469 116   7.319  &lt;.0001
+ irrigado G09 - sequia G11    8225.30 469 116  17.537  &lt;.0001
+ irrigado G09 - irrigado G12  2870.45 469 116   6.120  &lt;.0001
+ irrigado G09 - sequia G12    7841.31 469 116  16.718  &lt;.0001
+ irrigado G09 - irrigado G13  1615.33 469 116   3.444  0.1534
+ irrigado G09 - sequia G13    7161.61 469 116  15.269  &lt;.0001
+ irrigado G09 - irrigado G14  1903.58 469 116   4.059  0.0254
+ irrigado G09 - sequia G14    6773.37 469 116  14.441  &lt;.0001
+ irrigado G09 - irrigado G15  3920.69 469 116   8.359  &lt;.0001
+ irrigado G09 - sequia G15    8707.21 469 116  18.564  &lt;.0001
+ sequia G09 - irrigado G10   -2198.02 469 116  -4.686  0.0027
+ sequia G09 - sequia G10       148.67 469 116   0.317  1.0000
+ sequia G09 - irrigado G11   -3781.56 469 116  -8.062  &lt;.0001
+ sequia G09 - sequia G11      1010.91 469 116   2.155  0.9383
+ sequia G09 - irrigado G12   -4343.94 469 116  -9.261  &lt;.0001
+ sequia G09 - sequia G12       626.92 469 116   1.337  1.0000
+ sequia G09 - irrigado G13   -5599.06 469 116 -11.937  &lt;.0001
+ sequia G09 - sequia G13       -52.78 469 116  -0.113  1.0000
+ sequia G09 - irrigado G14   -5310.81 469 116 -11.323  &lt;.0001
+ sequia G09 - sequia G14      -441.02 469 116  -0.940  1.0000
+ sequia G09 - irrigado G15   -3293.70 469 116  -7.022  &lt;.0001
+ sequia G09 - sequia G15      1492.82 469 116   3.183  0.2807
+ irrigado G10 - sequia G10    2346.70 469 116   5.003  0.0008
+ irrigado G10 - irrigado G11 -1583.54 469 116  -3.376  0.1813
+ irrigado G10 - sequia G11    3208.93 469 116   6.842  &lt;.0001
+ irrigado G10 - irrigado G12 -2145.91 469 116  -4.575  0.0041
+ irrigado G10 - sequia G12    2824.94 469 116   6.023  &lt;.0001
+ irrigado G10 - irrigado G13 -3401.04 469 116  -7.251  &lt;.0001
+ irrigado G10 - sequia G13    2145.24 469 116   4.574  0.0041
+ irrigado G10 - irrigado G14 -3112.79 469 116  -6.637  &lt;.0001
+ irrigado G10 - sequia G14    1757.01 469 116   3.746  0.0673
+ irrigado G10 - irrigado G15 -1095.68 469 116  -2.336  0.8669
+ irrigado G10 - sequia G15    3690.84 469 116   7.869  &lt;.0001
+ sequia G10 - irrigado G11   -3930.23 469 116  -8.379  &lt;.0001
+ sequia G10 - sequia G11       862.24 469 116   1.838  0.9911
+ sequia G10 - irrigado G12   -4492.61 469 116  -9.578  &lt;.0001
+ sequia G10 - sequia G12       478.24 469 116   1.020  1.0000
+ sequia G10 - irrigado G13   -5747.73 469 116 -12.254  &lt;.0001
+ sequia G10 - sequia G13      -201.45 469 116  -0.430  1.0000
+ sequia G10 - irrigado G14   -5459.48 469 116 -11.640  &lt;.0001
+ sequia G10 - sequia G14      -589.69 469 116  -1.257  1.0000
+ sequia G10 - irrigado G15   -3442.38 469 116  -7.339  &lt;.0001
+ sequia G10 - sequia G15      1344.14 469 116   2.866  0.5000
+ irrigado G11 - sequia G11    4792.47 469 116  10.218  &lt;.0001
+ irrigado G11 - irrigado G12  -562.38 469 116  -1.199  1.0000
+ irrigado G11 - sequia G12    4408.48 469 116   9.399  &lt;.0001
+ irrigado G11 - irrigado G13 -1817.50 469 116  -3.875  0.0457
+ irrigado G11 - sequia G13    3728.78 469 116   7.950  &lt;.0001
+ irrigado G11 - irrigado G14 -1529.25 469 116  -3.260  0.2372
+ irrigado G11 - sequia G14    3340.54 469 116   7.122  &lt;.0001
+ irrigado G11 - irrigado G15   487.85 469 116   1.040  1.0000
+ irrigado G11 - sequia G15    5274.37 469 116  11.245  &lt;.0001
+ sequia G11 - irrigado G12   -5354.85 469 116 -11.417  &lt;.0001
+ sequia G11 - sequia G12      -383.99 469 116  -0.819  1.0000
+ sequia G11 - irrigado G13   -6609.97 469 116 -14.093  &lt;.0001
+ sequia G11 - sequia G13     -1063.69 469 116  -2.268  0.8980
+ sequia G11 - irrigado G14   -6321.72 469 116 -13.478  &lt;.0001
+ sequia G11 - sequia G14     -1451.93 469 116  -3.096  0.3349
+ sequia G11 - irrigado G15   -4304.61 469 116  -9.178  &lt;.0001
+ sequia G11 - sequia G15       481.91 469 116   1.027  1.0000
+ irrigado G12 - sequia G12    4970.85 469 116  10.598  &lt;.0001
+ irrigado G12 - irrigado G13 -1255.12 469 116  -2.676  0.6465
+ irrigado G12 - sequia G13    4291.16 469 116   9.149  &lt;.0001
+ irrigado G12 - irrigado G14  -966.87 469 116  -2.061  0.9621
+ irrigado G12 - sequia G14    3902.92 469 116   8.321  &lt;.0001
+ irrigado G12 - irrigado G15  1050.23 469 116   2.239  0.9096
+ irrigado G12 - sequia G15    5836.75 469 116  12.444  &lt;.0001
+ sequia G12 - irrigado G13   -6225.98 469 116 -13.274  &lt;.0001
+ sequia G12 - sequia G13      -679.70 469 116  -1.449  0.9998
+ sequia G12 - irrigado G14   -5937.73 469 116 -12.660  &lt;.0001
+ sequia G12 - sequia G14     -1067.93 469 116  -2.277  0.8942
+ sequia G12 - irrigado G15   -3920.62 469 116  -8.359  &lt;.0001
+ sequia G12 - sequia G15       865.90 469 116   1.846  0.9906
+ irrigado G13 - sequia G13    5546.28 469 116  11.825  &lt;.0001
+ irrigado G13 - irrigado G14   288.25 469 116   0.615  1.0000
+ irrigado G13 - sequia G14    5158.04 469 116  10.997  &lt;.0001
+ irrigado G13 - irrigado G15  2305.35 469 116   4.915  0.0011
+ irrigado G13 - sequia G15    7091.87 469 116  15.120  &lt;.0001
+ sequia G13 - irrigado G14   -5258.03 469 116 -11.210  &lt;.0001
+ sequia G13 - sequia G14      -388.24 469 116  -0.828  1.0000
+ sequia G13 - irrigado G15   -3240.93 469 116  -6.910  &lt;.0001
+ sequia G13 - sequia G15      1545.59 469 116   3.295  0.2193
+ irrigado G14 - sequia G14    4869.79 469 116  10.383  &lt;.0001
+ irrigado G14 - irrigado G15  2017.11 469 116   4.301  0.0111
+ irrigado G14 - sequia G15    6803.63 469 116  14.506  &lt;.0001
+ sequia G14 - irrigado G15   -2852.69 469 116  -6.082  &lt;.0001
+ sequia G14 - sequia G15      1933.83 469 116   4.123  0.0205
+ irrigado G15 - sequia G15    4786.52 469 116  10.205  &lt;.0001
+
+Results are averaged over the levels of: bloque 
+P value adjustment: tukey method for comparing a family of 30 estimates </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Medias con intervalos de confianza</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(emm_riego, <span class="at">comparisons =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: `aes_()` was deprecated in ggplot2 3.0.0.
+ℹ Please use tidy evaluation idioms with `aes()`
+ℹ The deprecated feature was likely used in the emmeans package.
+  Please report the issue at &lt;https://github.com/rvlenth/emmeans/issues&gt;.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(emm_geno, <span class="at">comparisons =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-6-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(emm_inter, <span class="at">comparisons =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-6-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="comparación-de-medias-gennoriego" class="level1">
+<h1>COMPARACIÓN DE MEDIAS GENNO*RIEGO</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(emmeans)</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(multcomp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Cargando paquete requerido: mvtnorm</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Cargando paquete requerido: survival</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Cargando paquete requerido: TH.data</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Cargando paquete requerido: MASS</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Adjuntando el paquete: 'MASS'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:dplyr':
+
+    select</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Adjuntando el paquete: 'TH.data'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:MASS':
+
+    geyser</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(multcompView)</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>md <span class="ot">&lt;-</span> <span class="fu">aov</span>(lfa <span class="sc">~</span> riego <span class="sc">+</span> geno <span class="sc">+</span> riego<span class="sc">*</span>geno <span class="sc">+</span> bloque, <span class="at">data =</span> fb)</span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(md)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Variance Table
+
+Response: lfa
+            Df    Sum Sq   Mean Sq   F value Pr(&gt;F)    
+riego        1 788556926 788556926 1433.7957 &lt;2e-16 ***
+geno        14 261729564  18694969   33.9922 &lt;2e-16 ***
+bloque       4   3435339    858835    1.5616 0.1892    
+riego:geno  14 108147972   7724855   14.0457 &lt;2e-16 ***
+Residuals  116  63797516    549979                     
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>emm_inter <span class="ot">&lt;-</span> <span class="fu">emmeans</span>(md, <span class="sc">~</span> geno <span class="sc">*</span> riego)</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>cld_inter <span class="ot">&lt;-</span> <span class="fu">cld</span>(emm_inter, <span class="at">Letters =</span> letters, <span class="at">adjust =</span> <span class="st">"tukey"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Note: adjust = "tukey" was changed to "sidak"
+because "tukey" is only appropriate for one set of pairwise comparisons</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(cld_inter)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> geno riego    emmean  SE  df lower.CL upper.CL .group      
+ G07  sequia      681 332 116     -384     1746  a          
+ G07  irrigado   1374 332 116      309     2439  ab         
+ G15  sequia     1581 332 116      515     2646  abc        
+ G05  sequia     1784 332 116      719     2849  abcd       
+ G03  sequia     2059 332 116      994     3124  abcd       
+ G11  sequia     2062 332 116      997     3128  abcd       
+ G08  sequia     2374 332 116     1308     3439  abcd       
+ G12  sequia     2446 332 116     1381     3512  abcd       
+ G02  sequia     2717 332 116     1652     3782   bcd       
+ G10  sequia     2925 332 116     1859     3990   bcd       
+ G04  sequia     2979 332 116     1914     4044   bcd       
+ G01  sequia     3040 332 116     1974     4105   bcd       
+ G09  sequia     3073 332 116     2008     4138   bcd       
+ G13  sequia     3126 332 116     2061     4191   bcd       
+ G06  sequia     3348 332 116     2283     4413    cd       
+ G14  sequia     3514 332 116     2449     4579     de      
+ G10  irrigado   5271 332 116     4206     6336      ef     
+ G03  irrigado   5417 332 116     4352     6482       f     
+ G02  irrigado   5780 332 116     4714     6845       fg    
+ G15  irrigado   6367 332 116     5302     7432       fg    
+ G11  irrigado   6855 332 116     5790     7920       fgh   
+ G08  irrigado   7287 332 116     6222     8352        ghi  
+ G01  irrigado   7378 332 116     6313     8443        ghi  
+ G12  irrigado   7417 332 116     6352     8482        ghi  
+ G06  irrigado   7455 332 116     6390     8521        ghi  
+ G14  irrigado   8384 332 116     7319     9449         hij 
+ G13  irrigado   8672 332 116     7607     9738          ijk
+ G05  irrigado   8879 332 116     7814     9944          ijk
+ G04  irrigado   9669 332 116     8604    10734           jk
+ G09  irrigado  10288 332 116     9223    11353            k
+
+Results are averaged over the levels of: bloque 
+Confidence level used: 0.95 
+Conf-level adjustment: sidak method for 30 estimates 
+P value adjustment: tukey method for comparing a family of 30 estimates 
+significance level used: alpha = 0.05 
+NOTE: If two or more means share the same grouping symbol,
+      then we cannot show them to be different.
+      But we also did not show them to be the same. </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>cld_inter <span class="ot">&lt;-</span> cld_inter <span class="sc">%&gt;%</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">.group =</span> <span class="fu">gsub</span>(<span class="st">" "</span>, <span class="st">""</span>, .group))</span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(cld_inter, <span class="fu">aes</span>(<span class="at">x =</span> geno, <span class="at">y =</span> emmean, <span class="at">fill =</span> riego)) <span class="sc">+</span></span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.9</span>)) <span class="sc">+</span></span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> lower.CL, <span class="at">ymax =</span> upper.CL),</span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.9</span>), <span class="at">width =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> .group),</span>
+<span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.9</span>),</span>
+<span id="cb56-10"><a href="#cb56-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">4</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb56-11"><a href="#cb56-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb56-12"><a href="#cb56-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Genotipo"</span>,</span>
+<span id="cb56-13"><a href="#cb56-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"LFA (media ajustada)"</span>,</span>
+<span id="cb56-14"><a href="#cb56-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"Riego"</span>,</span>
+<span id="cb56-15"><a href="#cb56-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Comparación de medias (Tukey) - Interacción Riego x Genotipo"</span></span>
+<span id="cb56-16"><a href="#cb56-16" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb56-17"><a href="#cb56-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>) <span class="sc">+</span></span>
+<span id="cb56-18"><a href="#cb56-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb56-19"><a href="#cb56-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb56-20"><a href="#cb56-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">"top"</span></span>
+<span id="cb56-21"><a href="#cb56-21" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
