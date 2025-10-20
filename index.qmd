@@ -1,8 +1,14 @@
 ---
 title: "DISEÑOS EXPERIMENTALES"
 author: "FRANK TOMAPASCA"
-format: html
+format:
+  html:
+    theme:
+      light: flatly
+      dark: darkly
+    toggle: true
 ---
+
 
 
 
